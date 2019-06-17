@@ -10,6 +10,7 @@ const AnswersList = props => {
                             item={item}
                             key={index}
                             onAnswerClick={props.onAnswerClick}
+                            checked={props.checked}
                         />
                     })}
                 </form>

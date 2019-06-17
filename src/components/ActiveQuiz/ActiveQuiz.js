@@ -9,7 +9,7 @@ import AnswersList from "./AnswersList/AnswersList";
 // );
 
 const ActiveQuiz = props => {
-    debugger;
+   // debugger;
     return (
         <div className='ActiveQuiz'>
             <p>ActiveQuiz</p>
@@ -17,6 +17,7 @@ const ActiveQuiz = props => {
             <AnswersList
                 answers={props.answers}
                 onAnswerClick={props.onAnswerClick}
+                checked={props.checked}
             />
         </div>
     )
