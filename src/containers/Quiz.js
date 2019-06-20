@@ -10,6 +10,7 @@ class Quiz extends Component {
         answerState: null,
        // checkedRadio: null,
         selectedAnswer: null,
+        test: [],
         quiz: [
             {
                 id: 1,
@@ -46,18 +47,38 @@ class Quiz extends Component {
     isQuizFinished() {
         return this.state.activeQuestion +1 === this.state.quiz.length
     }
+    answerExists = (results, activeQuestion) => {
+       // return array.filter((elem) => elem.hasOwnProperty(activeQuestion)).length
+       // return array.find((elem) => elem.hasOwnProperty(activeQuestion))
+        return results.find((elem) => elem.questionId === activeQuestion);
+    };
+    updateAnswer = (results, activeQuestion, newAnswerId) => {
+        let newResults = [...results.filter((elem) => elem.questionId !== activeQuestion)];
+        debugger
+        newResults.push({ questionId: activeQuestion, answerId: newAnswerId });
+        return newResults;
+    };
+
     onAnswerClickHandler = answerId => {
         const question = this.state.quiz[this.state.activeQuestion];
         let results = this.state.results;
-        if(results[question.id] !== question.id) {
-            results.push({[question.id]: answerId})
+       // let test = this.answerExists(results, question.id);
+        let test;
+
+        if(!this.answerExists(results, question.id)) {
+            // results.push({[question.id]: answerId})
+            results.push({ questionId: question.id, answerId: answerId })
+        } else {
+          //  debugger
+            results = this.updateAnswer(results, question.id, answerId);
         }
 
         return (
             this.setState({
                 selectedAnswer: answerId,
                 answerState: {[question.id]: answerId},
-                results: results
+                results: results,
+                test: test
             })
         )
 
@@ -98,6 +119,8 @@ class Quiz extends Component {
         return (
             <div>
               <h2>Quiz</h2>
+                <p>TEST: {JSON.stringify(this.state.test)} </p>
+                <p>Active : {JSON.stringify(this.state.activeQuestion)}</p>
                 <p>STATE: {JSON.stringify(this.state.answerState)}</p>
                 <p>RESULTS: {JSON.stringify(this.state.results)}</p>
                 <p>SELECTED ANSW: {this.state.selectedAnswer}</p>
